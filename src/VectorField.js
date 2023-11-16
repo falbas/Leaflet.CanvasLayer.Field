@@ -27,9 +27,9 @@ export default class VectorField extends Field {
      * @param   {ArrayBuffer} gtV - geotiff data with v-component (band 0)
      * @returns {VectorField}
      */
-    static fromGeoTIFFs(gtU, gtV) {
-        let u = ScalarField.fromGeoTIFF(gtU);
-        let v = ScalarField.fromGeoTIFF(gtV);
+    static fromGeoTIFFs(gtU, gtV, scaleFactor = 1) {
+        let u = ScalarField.fromGeoTIFF(gtU, undefined, scaleFactor);
+        let v = ScalarField.fromGeoTIFF(gtV, undefined, scaleFactor);
         let p = VectorField._paramsFromScalarFields(u, v);
 
         return new VectorField(p);

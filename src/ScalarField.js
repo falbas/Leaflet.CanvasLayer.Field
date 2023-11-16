@@ -82,8 +82,8 @@ export default class ScalarField extends Field {
    * @param   {Number}   bandIndex
    * @returns {ScalarField}
    */
-    static fromGeoTIFF(data, bandIndex = 0) {
-        return ScalarField.multipleFromGeoTIFF(data, [bandIndex])[0];
+    static fromGeoTIFF(data, bandIndex = 0, scaleFactor = 1) {
+        return ScalarField.multipleFromGeoTIFF(data, [bandIndex], scaleFactor)[0];
     }
 
     /**
@@ -92,7 +92,7 @@ export default class ScalarField extends Field {
    * @param   {Array}   bandIndexes - if not provided all bands are returned
    * @returns {Array.<ScalarField>}
    */
-    static multipleFromGeoTIFF(data, bandIndexes) {
+    static multipleFromGeoTIFF(data, bandIndexes, scaleFactor = 1) {
     //console.time('ScalarField from GeoTIFF');
 
         let tiff = GeoTIFF.parse(data); // geotiff.js
@@ -115,7 +115,7 @@ export default class ScalarField extends Field {
                 // console.log(noData);
                 let simpleZS = Array.from(zs); // to simple array, so null is allowed | TODO efficiency??
                 zs = simpleZS.map(function (z) {
-                    return z === noData ? null : z;
+                    return z === noData ? null : z * scaleFactor;
                 });
             }
 
